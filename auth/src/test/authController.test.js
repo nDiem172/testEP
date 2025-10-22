@@ -3,7 +3,6 @@ const chaiHttp = require("chai-http");
 const App = require("../app");
 require("dotenv").config();
 
-
 chai.use(chaiHttp);
 const { expect } = chai;
 
@@ -12,12 +11,27 @@ describe("User Authentication", () => {
 
   before(async () => {
     app = new App();
+
+    // Kết nối MongoDB
     await app.connectDB();
+
+    // Chờ Mongoose thực sự sẵn sàng
+    while (app.mongoose.connection.readyState !== 1) {
+      console.log("Waiting for MongoDB connection...");
+      await new Promise((res) => setTimeout(res, 100));
+    }
+    console.log("✅ MongoDB connected");
+
+    // Xóa user test trước khi chạy
+    await app.authController.authService.deleteTestUsers();
+
     app.start();
   });
 
   after(async () => {
+    // Cleanup dữ liệu test
     await app.authController.authService.deleteTestUsers();
+
     await app.disconnectDB();
     app.stop();
   });
