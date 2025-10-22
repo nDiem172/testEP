@@ -15,7 +15,7 @@ class App {
   }
 
   async connectDB() {
-    await mongoose.connect(config.mongoURI, {
+    await mongoose.connect(config.MONGODB_AUTH_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
