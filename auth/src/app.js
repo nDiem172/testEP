@@ -7,8 +7,8 @@ const AuthController = require("./controllers/authController");
 class App {
   constructor() {
     this.app = express();
-     this.mongoose = mongoose;
     this.authController = new AuthController();
+    this.mongoose = mongoose;
     // this.connectDB();
     this.setMiddlewares();
     this.setRoutes();

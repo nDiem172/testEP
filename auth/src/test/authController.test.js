@@ -18,7 +18,7 @@ describe("User Authentication", () => {
     // Chờ Mongoose thực sự sẵn sàng
     // while (app.mongoose.connection.readyState !== 1) {
     //   console.log("Waiting for MongoDB connection...");
-      await new Promise((res) => setTimeout(res, 100));
+      // await new Promise((res) => setTimeout(res, 100));
     // }
     console.log("✅ MongoDB connected");
 
@@ -26,6 +26,7 @@ describe("User Authentication", () => {
     await app.authController.authService.deleteTestUsers();
 
     app.start();
+
   });
 
   after(async () => {
