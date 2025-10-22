@@ -33,11 +33,15 @@ jobs:
         npm ci
         cd ..
         npm ci
-  
+
+    # <-- Thêm bước này ngay sau khi cài xong dependencies
+    - name: Wait for MongoDB
+      run: npx wait-on tcp:27017
+    
     - name: Run tests for auth
       run: |
-        cd auth
-        npm test
+          cd auth
+          npm test
 
     - name: Run tests for product
       run: |

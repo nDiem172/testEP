@@ -10,33 +10,61 @@ const { expect } = chai;
 describe("User Authentication", () => {
   let app;
 
+  // before(async () => {
+  //   app = new App();
+
+  //   // Kết nối MongoDB
+  //   await app.connectDB();
+
+  //   // // Chờ Mongoose thực sự sẵn sàng
+  //   // while (mongoose.connection.readyState !== 1) {
+  //   //   console.log("Waiting for MongoDB...");
+  //   //   await new Promise(res => setTimeout(res, 100));
+  //   // }
+  //   console.log("✅ MongoDB connected");
+
+  //   // Xóa user test trước khi chạy
+  //   await app.authController.authService.deleteTestUsers();
+
+  //   app.start();
+
+  // });
+
   before(async () => {
-    app = new App();
+  app = new App();
 
-    // Kết nối MongoDB
-    await app.connectDB();
+  await app.connectDB();
 
-    // // Chờ Mongoose thực sự sẵn sàng
-    // while (mongoose.connection.readyState !== 1) {
-    //   console.log("Waiting for MongoDB...");
-    //   await new Promise(res => setTimeout(res, 100));
-    // }
-    console.log("✅ MongoDB connected");
+  // chờ Mongoose thật sự ready
+  while (mongoose.connection.readyState !== 1) {
+    console.log("Waiting for MongoDB...");
+    await new Promise(res => setTimeout(res, 100));
+  }
+  console.log("✅ MongoDB connected");
 
-    // Xóa user test trước khi chạy
-    await app.authController.authService.deleteTestUsers();
+  // tạo collection tạm nếu chưa có
+  await mongoose.connection.db.createCollection("users").catch(() => {});
 
-    app.start();
+  // xóa user test
+  await app.authController.authService.deleteTestUsers();
 
-  });
+  app.start();
+});
+
+  // after(async () => {
+  //   // Cleanup dữ liệu test
+  //   await app.authController.authService.deleteTestUsers();
+
+  //   await app.disconnectDB();
+  //   app.stop();
+  // });
 
   after(async () => {
-    // Cleanup dữ liệu test
-    await app.authController.authService.deleteTestUsers();
+  await app.authController.authService.deleteTestUsers();
+  await app.disconnectDB();
+  app.stop();
+});
 
-    await app.disconnectDB();
-    app.stop();
-  });
 
   describe("POST /register", () => {
     it("should register a new user", async () => {
