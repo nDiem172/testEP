@@ -8,7 +8,6 @@ class App {
   constructor() {
     this.app = express();
     this.authController = new AuthController();
-    this.mongoose = mongoose;
     // this.connectDB();
     this.setMiddlewares();
     this.setRoutes();
