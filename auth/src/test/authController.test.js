@@ -16,11 +16,11 @@ describe("User Authentication", () => {
     // Kết nối MongoDB
     await app.connectDB();
 
-    // Chờ Mongoose thực sự sẵn sàng
-    while (mongoose.connection.readyState !== 1) {
-      console.log("Waiting for MongoDB...");
-      await new Promise(res => setTimeout(res, 100));
-    }
+    // // Chờ Mongoose thực sự sẵn sàng
+    // while (mongoose.connection.readyState !== 1) {
+    //   console.log("Waiting for MongoDB...");
+    //   await new Promise(res => setTimeout(res, 100));
+    // }
     console.log("✅ MongoDB connected");
 
     // Xóa user test trước khi chạy
