@@ -24,6 +24,13 @@ jobs:
         echo "LOGIN_TEST_USER=${{ secrets.LOGIN_TEST_USER }}" >> product/.env
         echo "LOGIN_TEST_PASSWORD=${{ secrets.LOGIN_TEST_PASSWORD }}" >> product/.env
 
+    - name: Wait for MongoDB
+      run: |
+          until nc -z localhost 27017; do
+            echo "Waiting for MongoDB..."
+            sleep 1
+          done
+
     - name: Install dependencies
       run: |
         cd auth
@@ -33,7 +40,7 @@ jobs:
         npm ci
         cd ..
         npm ci
-
+  
     - name: Run tests for auth
       run: |
         cd auth
