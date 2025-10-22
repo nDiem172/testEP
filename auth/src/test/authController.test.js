@@ -1,8 +1,8 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const App = require("../app");
-const mongoose = require("mongoose");
 require("dotenv").config();
+
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -10,61 +10,17 @@ const { expect } = chai;
 describe("User Authentication", () => {
   let app;
 
-  // before(async () => {
-  //   app = new App();
-
-  //   // Kết nối MongoDB
-  //   await app.connectDB();
-
-  //   // // Chờ Mongoose thực sự sẵn sàng
-  //   // while (mongoose.connection.readyState !== 1) {
-  //   //   console.log("Waiting for MongoDB...");
-  //   //   await new Promise(res => setTimeout(res, 100));
-  //   // }
-  //   console.log("✅ MongoDB connected");
-
-  //   // Xóa user test trước khi chạy
-  //   await app.authController.authService.deleteTestUsers();
-
-  //   app.start();
-
-  // });
-
   before(async () => {
-  app = new App();
-
-  await app.connectDB();
-
-  // chờ Mongoose thật sự ready
-  while (mongoose.connection.readyState !== 1) {
-    console.log("Waiting for MongoDB...");
-    await new Promise(res => setTimeout(res, 100));
-  }
-  console.log("✅ MongoDB connected");
-
-  // tạo collection tạm nếu chưa có
-  await mongoose.connection.db.createCollection("users").catch(() => {});
-
-  // xóa user test
-  await app.authController.authService.deleteTestUsers();
-
-  app.start();
-});
-
-  // after(async () => {
-  //   // Cleanup dữ liệu test
-  //   await app.authController.authService.deleteTestUsers();
-
-  //   await app.disconnectDB();
-  //   app.stop();
-  // });
+    app = new App();
+    await app.connectDB();
+    app.start();
+  });
 
   after(async () => {
-  await app.authController.authService.deleteTestUsers();
-  await app.disconnectDB();
-  app.stop();
-});
-
+    await app.authController.authService.deleteTestUsers();
+    await app.disconnectDB();
+    app.stop();
+  });
 
   describe("POST /register", () => {
     it("should register a new user", async () => {

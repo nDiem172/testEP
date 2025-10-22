@@ -4,13 +4,6 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    services:
-      mongo:
-        image: mongo:6.0
-        ports:
-          - 27017:27017
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3.2.0
@@ -34,10 +27,6 @@ jobs:
         cd ..
         npm ci
 
-    # <-- Thêm bước này ngay sau khi cài xong dependencies
-    - name: Wait for MongoDB
-      run: npx wait-on tcp:27017
-    
     - name: Run tests for auth
       run: |
           cd auth
