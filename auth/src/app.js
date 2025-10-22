@@ -8,7 +8,7 @@ class App {
   constructor() {
     this.app = express();
     this.authController = new AuthController();
-    this.connectDB();
+    // this.connectDB();
     this.setMiddlewares();
     this.setRoutes();
   }

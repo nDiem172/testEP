@@ -4,15 +4,23 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
-      mongo:
-        image: mongo:6.0
+      mongodb:
+        image: mongo:5.0
         ports:
           - 27017:27017
-
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - name: Checkout code
       uses: actions/checkout@v3.2.0
+
+    - name: Wait for MongoDB to be ready
+      run: npx wait-on tcp:27017
 
     - name: Create .env file
       run: |
@@ -32,9 +40,6 @@ jobs:
         npm ci
         cd ..
         npm ci
-
-    - name: Wait for MongoDB
-      run: npx wait-on tcp:27017
 
     - name: Run tests for auth
       run: |
