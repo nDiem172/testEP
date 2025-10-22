@@ -1,9 +1,8 @@
-require("dotenv").config(); 
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("./config");
-const authMiddleware = require("./middlewares/authMiddleware");
-const AuthController = require("./controllers/authController");
+const config = require("../src/config/index");
+const authMiddleware = require("../middlewares/authMiddleware");
+const AuthController = require("../controllers/authController");
 
 class App {
   constructor() {
