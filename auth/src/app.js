@@ -8,13 +8,13 @@ class App {
   constructor() {
     this.app = express();
     this.authController = new AuthController();
-    // this.connectDB();
+    this.connectDB();
     this.setMiddlewares();
     this.setRoutes();
   }
 
   async connectDB() {
-    await mongoose.connect(config.MONGODB_AUTH_URI, {
+    await mongoose.connect(config.mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
