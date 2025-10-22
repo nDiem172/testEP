@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("../src/config/index");
-const authMiddleware = require("../middlewares/authMiddleware");
-const AuthController = require("../controllers/authController");
+const config = require("./config/index");
+const authMiddleware = require("./middlewares/authMiddleware");
+const AuthController = require("./controllers/authController");
 
 class App {
   constructor() {
