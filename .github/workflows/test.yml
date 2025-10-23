@@ -51,7 +51,7 @@ jobs:
 
     - name: Run tests
       working-directory: ./${{ matrix.service }}
-      run: npm test --if-present || echo "No test for ${{ matrix.service }}"
+      run: npm test --if-present
 
     - name: Build
       working-directory: ./${{ matrix.service }}
