@@ -28,7 +28,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
+    - name: Create .env files
+      run: |
+        echo "MONGODB_AUTH_URI=${{ secrets.MONGODB_PRODUCT_URI }}" >> auth/.env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> auth/.env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> product/.env
+        echo "MONGODB_PRODUCT_URI=${{ secrets.MONGODB_PRODUCT_URI }}" >> product/.env
+        echo "LOGIN_TEST_USER=${{ secrets.LOGIN_TEST_USER }}" >> product/.env
+        echo "LOGIN_TEST_PASSWORD=${{ secrets.LOGIN_TEST_PASSWORD }}" >> product/.env
+
     - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -168,8 +177,10 @@ jobs:
           mongo_data:
           rabbitmq_data:
         EOF
+
     - name: Ensure Docker is running
       run: docker info
+
     - name: Pull và start services
       run: |
         docker compose -f docker-compose.prod.yml pull
